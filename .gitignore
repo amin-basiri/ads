@@ -6,3 +6,6 @@ venv/
 
 # DB
 db.sqlite3
+
+# Log Files
+logs/*

@@ -130,3 +130,23 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'pauth.PUser'
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "logs/error.log",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
