@@ -5,12 +5,12 @@ from ads.models import BaseModel
 
 
 class PUserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, **kwargs):
         if not email:
             raise ValueError('User must have an email address')
 
         email = self.normalize_email(email)
-        user = self.model(email=email)
+        user = self.model(email=email, **kwargs)
 
         user.set_password(password)
         user.save(using=self._db)
@@ -30,6 +30,8 @@ class PUserManager(BaseUserManager):
 class PUser(AbstractUser, BaseModel):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
+    username = models.CharField(max_length=150)
 
     email = models.EmailField(unique=True)
 

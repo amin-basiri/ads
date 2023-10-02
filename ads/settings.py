@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
 
     # Apps
     'ads',
@@ -131,6 +132,20 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'pauth.PUser'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+AUTHENTICATION_BACKENDS = (
+    "pauth.authentications.EmailAuthentication",
+)
+
+APPEND_SLASH = False
 
 LOGGING = {
     "version": 1,
@@ -140,6 +155,15 @@ LOGGING = {
             "level": "ERROR",
             "class": "logging.FileHandler",
             "filename": "logs/error.log",
+            'formatter': 'simple',
+        },
+    },
+    'formatters': {
+        'message-only': {
+            'format': '%(message)s',
+        },
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s',
         },
     },
     "loggers": {
