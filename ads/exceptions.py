@@ -1,7 +1,7 @@
-import sys
 import logging
 
 from rest_framework import exceptions
+from django.http.response import Http404
 from rest_framework.response import Response
 from rest_framework.views import set_rollback, status
 
@@ -54,8 +54,20 @@ def ads_api_exception_handler(exc, context):
                 "msg": "Invalid token",
             }
 
+        elif isinstance(exc, exceptions.NotFound):
+            data = {
+                "code": 107,
+                "msg": "Requested resource not found",
+            }
+
+        elif isinstance(exc, exceptions.PermissionDenied):
+            data = {
+                "code": 108,
+                "msg": "You dont have permission",
+            }
+
         else:
-            logger.error(exc, exc_info=True)
+            logger.exception(exc)
             data = {
                 "code": 100,
                 "msg": "Unhandled Exception",
@@ -63,6 +75,13 @@ def ads_api_exception_handler(exc, context):
 
         set_rollback()
         return Response(data, status=exc.status_code, headers=headers)
+
+    elif isinstance(exc, Http404):
+        data = {
+            "code": 107,
+            "msg": "Requested resource not found",
+        }
+        return Response(data, status=status.HTTP_404_NOT_FOUND)
 
     else:
         logger.exception(str(exc))

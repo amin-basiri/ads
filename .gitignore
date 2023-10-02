@@ -9,3 +9,6 @@ db.sqlite3
 
 # Log Files
 logs/*
+
+# Media Files
+media/*
