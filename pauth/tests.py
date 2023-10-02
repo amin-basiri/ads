@@ -6,10 +6,14 @@ from pauth import models
 
 class SignupTest(APITestCase):
 
-    def test_failed_without_required_fields(self):
+    def test_failed_required_fields_not_sent(self):
         response = self.client.post("/api/auth/sign_up/")
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.json()["detail"]["email"][0]["code"], "required")
+        self.assertEqual(response.json()["detail"]["password"][0]["code"], "required")
+        self.assertEqual(response.json()["detail"]["first_name"][0]["code"], "required")
+        self.assertEqual(response.json()["detail"]["last_name"][0]["code"], "required")
 
     def test_failed_invalid_email(self):
         response = self.client.post(
@@ -99,3 +103,4 @@ class SigninTest(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("token", response.json())
