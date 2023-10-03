@@ -1,6 +1,13 @@
 # Installation
 
-Make sure you are in root of project in your terminal.
+Make sure you have python and pip packages manager installed on your device
+and you are in root of project in your terminal.
+
+You need to install required packages to run service:
+
+```shell
+pip install -r requirements.txt
+```
 
 
 ### Initialize Database
@@ -36,5 +43,5 @@ Enjoy :)
 # Test
 
 ```shell
-python manage.py runserver
+python manage.py test
 ```
